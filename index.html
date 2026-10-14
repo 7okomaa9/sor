@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حقك عليا يا زوزا 💙💖</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        stitch: {
+                            light: '#E0F2FE',
+                            DEFAULT: '#60A5FA',
+                            dark: '#2563EB',
+                            ears: '#F472B6'
+                        },
+                        angel: {
+                            light: '#FCE7F3',
+                            DEFAULT: '#F472B6',
+                            dark: '#DB2777',
+                            lavender: '#EDE9FE'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fce7f3 0%, #ede9fe 50%, #e0f2fe 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Background Elements */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
+            }
+            85% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* Glassmorphism Card */
+        .cute-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 
+                0 20px 40px -15px rgba(244, 114, 182, 0.25),
+                0 0 25px rgba(96, 165, 250, 0.2),
+                inset 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Stitch Character Animations */
+        .stitch-bounce {
+            animation: gentleBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .ear-left-droop {
+            transform-origin: 90px 100px;
+            animation: earDroopLeft 4s ease-in-out infinite;
+        }
+
+        .ear-right-droop {
+            transform-origin: 210px 100px;
+            animation: earDroopRight 4s ease-in-out infinite;
+        }
+
+        @keyframes earDroopLeft {
+            0%, 100% { transform: rotate(-12deg); }
+            50% { transform: rotate(-22deg); }
+        }
+
+        @keyframes earDroopRight {
+            0%, 100% { transform: rotate(12deg); }
+            50% { transform: rotate(22deg); }
+        }
+
+        .ear-happy-left {
+            transform-origin: 90px 100px;
+            animation: earHappyLeft 1.2s ease-in-out infinite;
+        }
+
+        .ear-happy-right {
+            transform-origin: 210px 100px;
+            animation: earHappyRight 1.2s ease-in-out infinite;
+        }
+
+        @keyframes earHappyLeft {
+            0%, 100% { transform: rotate(10deg); }
+            50% { transform: rotate(25deg); }
+        }
+
+        @keyframes earHappyRight {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(-25deg); }
+        }
+
+        .heart-pulse {
+            transform-origin: center;
+            animation: pulseHeart 1.4s ease-in-out infinite;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        .tear-drop {
+            animation: tearDrop 2.2s infinite;
+        }
+
+        @keyframes tearDrop {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(18px) scale(1.1); opacity: 0; }
+        }
+
+        /* Buttons Styling */
+        .btn-forgive {
+            background: linear-gradient(135deg, #f472b6 0%, #db2777 50%, #ec4899 100%);
+            box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.5), 0 0 15px rgba(244, 114, 182, 0.4);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-forgive:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 15px 30px -5px rgba(236, 72, 153, 0.65);
+        }
+
+        .btn-forgive:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .btn-angry {
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Coupon Card Styling */
+        .coupon-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+            border: 2px dashed #f472b6;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coupon-card::before, .coupon-card::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #f8e8f8;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 2px solid #f472b6;
+        }
+
+        .coupon-card::before {
+            left: -14px;
+        }
+
+        .coupon-card::after {
+            right: -14px;
+        }
+
+        .coupon-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 24px -6px rgba(244, 114, 182, 0.3);
+        }
+
+        .coupon-claimed {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #34d399;
+        }
+
+        /* Pop-in animation */
+        .pop-in {
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Speech bubble */
+        .speech-bubble {
+            position: relative;
+            background: #ffffff;
+            border-radius: 1.5rem;
+            border: 2.5px solid #93c5fd;
+            box-shadow: 0 8px 20px -4px rgba(96, 165, 250, 0.25);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 12px 12px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+            z-index: 1;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 14px 14px 0;
+            border-style: solid;
+            border-color: #93c5fd transparent;
+            display: block;
+            width: 0;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <!-- Floating Animated Background (Hearts, Stars, Sparkles, Hibiscus) -->
+    <div id="floating-bg" class="floating-bg"></div>
+
+    <!-- Top Music / Sound Effects Toggle & Cute Badge -->
+    <header class="relative z-10 w-full max-w-xl flex items-center justify-between mb-4 px-2">
+        <div class="flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full border-2 border-pink-200 shadow-sm">
+            <span class="text-xl animate-bounce">🌺</span>
+            <span class="text-sm font-bold bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
+                عالم زوزا وستيتش
+            </span>
+        </div>
+
+        <button id="soundToggleBtn" onclick="toggleSound()" class="flex items-center gap-1.5 bg-white/80 backdrop-blur-md hover:bg-white px-3.5 py-1.5 rounded-full border-2 border-blue-200 shadow-sm text-xs font-bold text-slate-600 transition-all active:scale-95">
+            <span id="soundIcon">🔊</span>
+            <span id="soundText">المؤثرات شغالة</span>
+        </button>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="relative z-10 w-full max-w-xl">
+
+        <!-- ==========================================
+             SCREEN 1: APOLOGY & INTERACTIVE PLEA
+             ========================================== -->
+        <section id="apologyScreen" class="cute-card rounded-[2.5rem] p-6 sm:p-8 text-center relative overflow-hidden transition-all duration-500">
+            
+            <!-- Top Decorative Ribbon -->
+            <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400"></div>
+
+            <!-- Dynamic Speech Bubble Above Stitch -->
+            <div class="mb-3 flex justify-center">
+                <div id="stitchSpeech" class="speech-bubble px-5 py-2.5 inline-block max-w-xs sm:max-w-sm transition-all duration-300">
+                    <p id="stitchSpeechText" class="text-sm sm:text-base font-extrabold text-blue-600 leading-relaxed">
+                        "زوزا.. أنا آسف بجد، متزعليش مني عشان خاطري 🥺💙"
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom Cute Stitch SVG Illustration (Sad / Pleading Pose Holding a Heart) -->
+            <div class="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto my-1 stitch-bounce">
+                <svg viewBox="0 0 300 280" class="w-full h-full drop-shadow-md" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Soft Shadow under Stitch -->
+                    <ellipse cx="150" cy="262" rx="75" ry="12" fill="rgba(147, 197, 253, 0.35)" />
+
+                    <!-- Left Ear (Droopy & Sad) -->
+                    <g class="ear-left-droop">
+                        <path d="M 95 95 C 40 65, 10 110, 22 155 C 32 180, 65 155, 92 125 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3.5" stroke-linejoin="round"/>
+                        <path d="M 88 103 C 45 80, 22 115, 30 148 C 38 168, 65 148, 88 122 Z" fill="#F472B6"/>
+                        <!-- Ear notch -->
+                        <path d="M 25 135 L 35 132 L 28 142 Z" fill="#e0f2fe"/>
+                    </g>
+
+                    <!-- Right Ear (Droopy & Sad) -->
+                    <g class="ear-right-droop">
+                        <path d="M 205 95 C 260 65, 290 110, 278 155 C 268 180, 235 155, 208 125 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3.5" stroke-linejoin="round"/>
+                        <path d="M 212 103 C 255 80, 278 115, 270 148 C 262 168, 235 148, 212 122 Z" fill="#F472B6"/>
+                        <!-- Ear notch -->
+                        <path d="M 275 135 L 265 132 L 272 142 Z" fill="#e0f2fe"/>
+                    </g>
+
+                    <!-- Stitch Body -->
+                    <path d="M 98 165 C 82 200, 88 250, 115 255 L 185 255 C 212 250, 218 200, 202 165 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3.5"/>
+                    <!-- Belly Patch -->
+                    <ellipse cx="150" cy="212" rx="38" ry="40" fill="#BFDBFE"/>
+
+                    <!-- Feet -->
+                    <ellipse cx="110" cy="252" rx="22" ry="14" transform="rotate(-10 110 252)" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3.5"/>
+                    <ellipse cx="110" cy="253" rx="12" ry="8" transform="rotate(-10 110 253)" fill="#93C5FD"/>
+                    <ellipse cx="190" cy="252" rx="22" ry="14" transform="rotate(10 190 252)" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3.5"/>
+                    <ellipse cx="190" cy="253" rx="12" ry="8" transform="rotate(10 190 253)" fill="#93C5FD"/>
+
+                    <!-- Stitch Head -->
+                    <ellipse cx="150" cy="118" rx="68" ry="56" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3.5"/>
+                    <!-- Cute Head Tuft -->
+                    <path d="M 140 63 Q 148 48 153 60 Q 160 50 162 64" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/>
+
+                    <!-- Light Blue Eye Patches -->
+                    <ellipse cx="118" cy="118" rx="22" ry="26" transform="rotate(-12 118 118)" fill="#93C5FD"/>
+                    <ellipse cx="182" cy="118" rx="22" ry="26" transform="rotate(12 182 118)" fill="#93C5FD"/>
+
+                    <!-- Big Puppy Eyes -->
+                    <ellipse cx="118" cy="120" rx="15" ry="18" fill="#0F172A"/>
+                    <ellipse cx="182" cy="120" rx="15" ry="18" fill="#0F172A"/>
+                    <!-- Big Cute Eye Highlights (Glossy Pleading Look) -->
+                    <circle cx="113" cy="113" r="6" fill="#FFFFFF"/>
+                    <circle cx="123" cy="126" r="3" fill="#FFFFFF"/>
+                    <circle cx="177" cy="113" r="6" fill="#FFFFFF"/>
+                    <circle cx="187" cy="126" r="3" fill="#FFFFFF"/>
+
+                    <!-- Sad Pleading Eyebrows -->
+                    <path d="M 98 96 Q 115 104 130 92" fill="none" stroke="#1E3A8A" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M 202 96 Q 185 104 170 92" fill="none" stroke="#1E3A8A" stroke-width="3.5" stroke-linecap="round"/>
+
+                    <!-- Animated Tear Drops -->
+                    <path class="tear-drop" d="M 102 135 Q 98 145 102 150 Q 106 145 102 135 Z" fill="#60A5FA"/>
+                    <path class="tear-drop" style="animation-delay: 1.1s;" d="M 198 135 Q 194 145 198 150 Q 202 145 198 135 Z" fill="#60A5FA"/>
+
+                    <!-- Soft Pink Blush Cheeks -->
+                    <ellipse cx="95" cy="138" rx="10" ry="6" fill="#F472B6" opacity="0.65"/>
+                    <ellipse cx="205" cy="138" rx="10" ry="6" fill="#F472B6" opacity="0.65"/>
+
+                    <!-- Big Dark Blue Nose -->
+                    <path d="M 136 128 C 136 118, 164 118, 164 128 C 164 138, 155 145, 150 145 C 145 145, 136 138, 136 128 Z" fill="#1E3A8A"/>
+                    <ellipse cx="145" cy="125" rx="5" ry="2.5" fill="#60A5FA" opacity="0.6"/>
+
+                    <!-- Sad / Pleading Wobbly Mouth -->
+                    <path id="stitchMouth" d="M 132 156 Q 150 146 168 156" fill="none" stroke="#1E3A8A" stroke-width="3.5" stroke-linecap="round"/>
+
+                    <!-- Glowing Pink Heart Held by Stitch -->
+                    <g class="heart-pulse">
+                        <path d="M 150 235 C 150 235, 110 208, 110 184 C 110 168, 128 160, 142 172 C 147 176, 150 181, 150 181 C 150 181, 153 176, 158 172 C 172 160, 190 168, 190 184 C 190 208, 150 235, 150 235 Z" 
+                              fill="#F472B6" stroke="#DB2777" stroke-width="3"/>
+                        <!-- Heart shine -->
+                        <path d="M 122 180 Q 122 172 132 172" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+                        <text x="150" y="204" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="bold" font-family="Cairo">زوزا</text>
+                    </g>
+
+                    <!-- Stitch Paws Holding the Heart -->
+                    <ellipse cx="114" cy="195" rx="16" ry="11" transform="rotate(20 114 195)" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                    <ellipse cx="186" cy="195" rx="16" ry="11" transform="rotate(-20 186 195)" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                </svg>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="text-2xl sm:text-3xl font-black text-slate-800 mb-3 leading-snug">
+                زوزا.. حقك عليا يا <span class="text-pink-500">ست البنات</span> 🥺💙💖
+            </h1>
+
+            <!-- Sweet Apology Paragraph -->
+            <p class="text-slate-600 text-base sm:text-lg font-medium leading-relaxed mb-5 bg-pink-50/80 p-4 rounded-2xl border border-pink-200">
+                عارف إني زعلتك، بس والله ميهونش عليا زعلك أبداً ولا أقدر أشوفك مضايقة لحظة واحدة..
+                الدنيا من غير ضحكتك الحلوة ملهاش طعم خالص يا أحلى زوزا في الدنيا كلها 🌸✨
+            </p>
+
+            <!-- Question Prompt -->
+            <div class="mb-4">
+                <span class="inline-block bg-gradient-to-r from-blue-100 to-pink-100 text-slate-700 font-extrabold px-5 py-1.5 rounded-full text-base sm:text-lg border border-pink-200 shadow-inner">
+                    هااا.. سامحتيني ولا لسه؟ 👀💓
+                </span>
+            </div>
+
+            <!-- Interactive Buttons Area -->
+            <div id="buttonsArena" class="relative min-h-[130px] sm:min-h-[110px] flex flex-col sm:flex-row items-center justify-center gap-4 py-2">
+                <!-- YES / FORGIVE BUTTON -->
+                <button id="yesBtn" onclick="acceptApology()" class="btn-forgive text-white font-extrabold text-lg sm:text-xl px-8 py-3.5 rounded-full cursor-pointer z-20 flex items-center gap-2">
+                    <span>سامحتك خلاص 💖</span>
+                </button>
+
+                <!-- NO / STILL UPSET BUTTON (Playfully runs away / shrinks) -->
+                <button id="noBtn" onclick="rejectPlayfully(event)" onmouseover="dodgeOnHover(event)" class="btn-angry bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-base px-6 py-3 rounded-full border-2 border-slate-300 shadow-sm cursor-pointer z-10">
+                    لأ لسه زعلانة 😒
+                </button>
+            </div>
+
+            <!-- Attempt Counter / Cute Hint -->
+            <p id="pleaHint" class="text-xs text-pink-500 font-bold mt-2 opacity-0 transition-opacity duration-300">
+                جربي تدوسي على "سامحتك خلاص" وشوفي ستيتش هيعمل إيه! 🙈💙
+            </p>
+        </section>
+
+
+        <!-- ==========================================
+             SCREEN 2: CELEBRATION, LOVE NOTE & COUPONS
+             ========================================== -->
+        <section id="celebrationScreen" class="hidden cute-card rounded-[2.5rem] p-6 sm:p-8 text-center relative overflow-hidden">
+            
+            <!-- Top Decorative Gradient Ribbon -->
+            <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-pink-400 via-rose-400 to-blue-400"></div>
+
+            <!-- Celebration Badge -->
+            <div class="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-sm font-extrabold mb-2 border border-pink-200 shadow-sm">
+                <span>🎉</span>
+                <span>ياااي! أحلى خبر في الدنيا</span>
+                <span>💖</span>
+            </div>
+
+            <!-- Happy Stitch & Angel Style SVG Illustration -->
+            <div class="relative w-60 h-56 mx-auto my-1 stitch-bounce">
+                <svg viewBox="0 0 320 260" class="w-full h-full drop-shadow-md" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Floating Little Hearts Around -->
+                    <path class="heart-pulse" d="M 55 60 C 55 60, 40 48, 40 38 C 40 31, 48 28, 53 34 C 55 36, 55 38, 55 38 C 55 38, 55 36, 57 34 C 62 28, 70 31, 70 38 C 70 48, 55 60, 55 60 Z" fill="#F472B6"/>
+                    <path class="heart-pulse" style="animation-delay: 0.5s;" d="M 265 55 C 265 55, 250 43, 250 33 C 250 26, 258 23, 263 29 C 265 31, 265 33, 265 33 C 265 33, 265 31, 267 29 C 272 23, 280 26, 280 33 C 280 43, 265 55, 265 55 Z" fill="#60A5FA"/>
+                    <path class="heart-pulse" style="animation-delay: 0.9s;" d="M 160 32 C 160 32, 148 22, 148 14 C 148 8, 155 6, 159 10 C 160 12, 160 14, 160 14 C 160 14, 160 12, 161 10 C 165 6, 172 8, 172 14 C 172 22, 160 32, 160 32 Z" fill="#EC4899"/>
+
+                    <!-- Shadow -->
+                    <ellipse cx="160" cy="242" rx="95" ry="12" fill="rgba(244, 114, 182, 0.3)" />
+
+                    <!-- HAPPY STITCH (Right Side) -->
+                    <g transform="translate(45, 10)">
+                        <!-- Raised Happy Ears -->
+                        <g class="ear-happy-left">
+                            <path d="M 95 90 C 55 30, 15 45, 25 90 C 32 115, 70 110, 92 105 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                            <path d="M 88 92 C 55 42, 25 55, 32 88 C 38 108, 68 105, 86 100 Z" fill="#F472B6"/>
+                        </g>
+                        <g class="ear-happy-right">
+                            <path d="M 185 90 C 225 30, 265 45, 255 90 C 248 115, 210 110, 188 105 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                            <path d="M 192 92 C 225 42, 255 55, 248 88 C 242 108, 212 105, 194 100 Z" fill="#F472B6"/>
+                        </g>
+
+                        <!-- Body -->
+                        <path d="M 98 150 C 85 185, 90 225, 115 230 L 165 230 C 190 225, 195 185, 182 150 Z" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                        <ellipse cx="140" cy="192" rx="32" ry="34" fill="#BFDBFE"/>
+
+                        <!-- Arms Raised in Celebration -->
+                        <ellipse cx="85" cy="155" rx="18" ry="10" transform="rotate(-40 85 155)" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                        <ellipse cx="195" cy="155" rx="18" ry="10" transform="rotate(40 195 155)" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+
+                        <!-- Head -->
+                        <ellipse cx="140" cy="108" rx="58" ry="48" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                        
+                        <!-- Cute Hibiscus Flower on Ear (Angel Vibe) -->
+                        <g transform="translate(82, 65)">
+                            <circle cx="0" cy="-8" r="7" fill="#F43F5E"/>
+                            <circle cx="8" cy="-2" r="7" fill="#F43F5E"/>
+                            <circle cx="5" cy="7" r="7" fill="#F43F5E"/>
+                            <circle cx="-5" cy="7" r="7" fill="#F43F5E"/>
+                            <circle cx="-8" cy="-2" r="7" fill="#F43F5E"/>
+                            <circle cx="0" cy="0" r="4" fill="#FDE047"/>
+                        </g>
+
+                        <!-- Eye Patches -->
+                        <ellipse cx="114" cy="106" rx="18" ry="22" transform="rotate(-10 114 106)" fill="#93C5FD"/>
+                        <ellipse cx="166" cy="106" rx="18" ry="22" transform="rotate(10 166 106)" fill="#93C5FD"/>
+
+                        <!-- Happy Sparkly Eyes (^ ^) -->
+                        <path d="M 102 108 Q 114 92 126 108" fill="none" stroke="#0F172A" stroke-width="4.5" stroke-linecap="round"/>
+                        <path d="M 154 108 Q 166 92 178 108" fill="none" stroke="#0F172A" stroke-width="4.5" stroke-linecap="round"/>
+
+                        <!-- Rosy Cheeks -->
+                        <ellipse cx="94" cy="120" rx="10" ry="5.5" fill="#F472B6" opacity="0.8"/>
+                        <ellipse cx="186" cy="120" rx="10" ry="5.5" fill="#F472B6" opacity="0.8"/>
+
+                        <!-- Nose -->
+                        <path d="M 128 114 C 128 106, 152 106, 152 114 C 152 122, 144 128, 140 128 C 136 128, 128 122, 128 114 Z" fill="#1E3A8A"/>
+
+                        <!-- Big Happy Smile -->
+                        <path d="M 112 130 Q 140 155 168 130 Z" fill="#F43F5E" stroke="#1E3A8A" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M 124 140 Q 140 148 156 140 Z" fill="#FDA4AF"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Celebration Title -->
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-800 mb-3">
+                كنت عارف إن قلبك أبيض يا <span class="text-pink-500">زوزا</span>! 🥰💙
+            </h2>
+
+            <!-- Love & Apology Note Card -->
+            <div class="bg-gradient-to-br from-pink-50 via-white to-blue-50 p-5 rounded-3xl border-2 border-pink-200 shadow-sm text-right mb-6 relative">
+                <div class="absolute -top-3 left-6 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                    رسالة من قلبي 💌
+                </div>
+                <p class="text-slate-700 text-base sm:text-lg leading-relaxed font-medium mt-1">
+                    أحلى وأغلى <span class="font-extrabold text-pink-600">زوزا</span> في حياتي.. 🌸<br>
+                    بجد آسف على أي حاجة ضايقتك حتى لو كانت صغيرة. إنتي مش بس حبيبتي، إنتي فرحتي وضحكتي والروح الحلوة اللي بتهون عليا أي حاجة. أوعدك دايماً أكون سبب في فرحتك وضحكتك الحلوة دي ومخليش الزعل يعرف طريق لقلبك الجميل أبداً! 💖✨
+                </p>
+                <div class="mt-3 text-left text-xs font-extrabold text-blue-500">
+                    — بحبك قد الدنيا وأكتر 💙🌺
+                </div>
+            </div>
+
+            <!-- Apology Coupons Section (كوبونات صلح) -->
+            <div class="mb-6">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <span class="text-xl">🎟️</span>
+                    <h3 class="text-lg sm:text-xl font-black text-slate-800">كوبونات صلح خاصة بـ "زوزا"</h3>
+                    <span class="text-xl">🎁</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-500 font-semibold mb-4">
+                    دوسي على الكوبونات اللي تحبيها عشان تفعّليها فوراً (ليكي الحق تختاريهم كلهم طبعاً 😉💖)
+                </p>
+
+                <!-- Coupons Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-right">
+                    
+                    <!-- Coupon 1 -->
+                    <div id="coupon-1" onclick="claimCoupon(1, 'خروجة حلوة على ذوقك 🍦')" class="coupon-card p-4 rounded-2xl cursor-pointer flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center text-2xl shrink-0">
+                                🍦
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm sm:text-base">خروجة حلوة على ذوقك</h4>
+                                <p class="text-xs text-slate-500">نروح المكان اللي تختاريه في أي وقت!</p>
+                            </div>
+                        </div>
+                        <span id="badge-1" class="bg-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shrink-0 shadow-sm">
+                            استلام 💖
+                        </span>
+                    </div>
+
+                    <!-- Coupon 2 -->
+                    <div id="coupon-2" onclick="claimCoupon(2, 'شوكولاتة وحلويات تحبيها 🍫')" class="coupon-card p-4 rounded-2xl cursor-pointer flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl shrink-0">
+                                🍫
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm sm:text-base">شوكولاتة وحلويات تحبيها</h4>
+                                <p class="text-xs text-slate-500">بوكس سعادة مخصوص عشان عيون زوزا</p>
+                            </div>
+                        </div>
+                        <span id="badge-2" class="bg-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shrink-0 shadow-sm">
+                            استلام 💖
+                        </span>
+                    </div>
+
+                    <!-- Coupon 3 -->
+                    <div id="coupon-3" onclick="claimCoupon(3, 'طلب مجاب فوراً من غير نقاش 👑')" class="coupon-card p-4 rounded-2xl cursor-pointer flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl shrink-0">
+                                👑
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm sm:text-base">طلب مجاب فوراً</h4>
+                                <p class="text-xs text-slate-500">كارت ذهبي لأي طلب يخطر على بالك!</p>
+                            </div>
+                        </div>
+                        <span id="badge-3" class="bg-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shrink-0 shadow-sm">
+                            استلام 💖
+                        </span>
+                    </div>
+
+                    <!-- Coupon 4 -->
+                    <div id="coupon-4" onclick="claimCoupon(4, 'وعد منعلش زوزا تاني أبداً 🤙💖')" class="coupon-card p-4 rounded-2xl cursor-pointer flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-2xl shrink-0">
+                                🤙
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm sm:text-base">Pinky Promise أبدي</h4>
+                                <p class="text-xs text-slate-500">وعد منعلش زوزا تاني أبداً مهما حصل</p>
+                            </div>
+                        </div>
+                        <span id="badge-4" class="bg-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shrink-0 shadow-sm">
+                            استلام 💖
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Claimed Coupons Summary Box -->
+            <div id="claimedSummaryBox" class="hidden bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4 mb-5 text-center transition-all">
+                <p class="text-sm font-extrabold text-emerald-700 mb-1">
+                    ✨ الكوبونات اللي زوزا اختارتها لحد دلوقتي:
+                </p>
+                <div id="claimedList" class="flex flex-wrap items-center justify-center gap-2 mt-2"></div>
+                <p class="text-xs text-emerald-600 mt-2 font-semibold">
+                    📸 خدي سكرين شوت للشاشة دي وابعتيهالي فوراً عشان ننفذ! 😍
+                </p>
+            </div>
+
+            <!-- Bottom Actions: Extra Love Boost or Replay -->
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <button onclick="triggerHeartShower()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-extrabold text-sm sm:text-base px-6 py-3 rounded-full shadow-md transition-all active:scale-95 flex items-center gap-2">
+                    <span>مطرة قلوب لزوزا</span>
+                    <span>💖✨</span>
+                </button>
+
+                <button onclick="resetExperience()" class="bg-white hover:bg-slate-50 text-slate-600 font-bold text-sm px-5 py-3 rounded-full border-2 border-slate-200 transition-all active:scale-95">
+                    إعادة من الأول 🔄
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Cute Footer -->
+    <footer class="relative z-10 mt-5 text-center text-xs font-bold text-slate-500/80">
+        اتعمل بكل حب مخصوص عشان ضحكة <span class="text-pink-500">زوزا</span> ترجع تنور الدنيا 💙🌸
+    </footer>
+
+    <!-- Toast Notification for Claimed Coupons -->
+    <div id="toastMsg" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-md text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+        <span>💖</span>
+        <span id="toastText">تم تفعيل الكوبون بنجاح!</span>
+    </div>
+
+    <script>
+        /* ==========================================
+           WEB AUDIO SYNTHESIZER (Cute Sound Effects)
+           ========================================== */
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioCtx = new AudioContext();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            const text = document.getElementById('soundText');
+            if (soundEnabled) {
+                icon.textContent = '🔊';
+                text.textContent = 'المؤثرات شغالة';
+                playCuteTone('pop');
+            } else {
+                icon.textContent = '🔇';
+                text.textContent = 'صامت';
+            }
+        }
+
+        function playCuteTone(type) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'boing') {
+                    // Playful dodge sound
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(620, now + 0.16);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.18);
+                } else if (type === 'pop') {
+                    // Coupon click pop
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.13);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.13);
+                } else if (type === 'celebrate') {
+                    // Happy magical arpeggio
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+                        gain.gain.setValueAtTime(0.15, now + idx * 0.09);
+                        gain.gain.exponentialRampToValueAtTime(0.008, now + idx * 0.09 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.09);
+                        osc.stop(now + idx * 0.09 + 0.35);
+                    });
+                }
+            } catch (e) {
+                // Ignore audio errors if blocked by browser
+            }
+        }
+
+        /* ==========================================
+           FLOATING PASTEL BACKGROUND GENERATOR
+           ========================================== */
+        function createFloatingBackground() {
+            const container = document.getElementById('floating-bg');
+            const items = ['💖', '💙', '🌸', '✨', '⭐', '🌺', '🦋', '💕'];
+            const count = 22;
+
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.className = 'float-item';
+                span.textContent = items[Math.floor(Math.random() * items.length)];
+                span.style.left = `${Math.random() * 96}vw`;
+                span.style.fontSize = `${Math.floor(Math.random() * 16) + 16}px`;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 12;
+                span.style.animationDuration = `${duration}s`;
+                span.style.animationDelay = `-${delay}s`;
+                container.appendChild(span);
+            }
+        }
+
+        /* ==========================================
+           INTERACTIVE PLEA LOGIC ("لأ لسه زعلانة")
+           ========================================== */
+        let noClickCount = 0;
+        let yesScale = 1;
+
+        const stitchPleas = [
+            "طب عشان خاطري يا زوزا؟ 🥺💙",
+            "ستيتش هيعيط كدا والله 😢💔",
+            "مقدرش على زعلك يا ست البنات ❤️",
+            "خلاص بقى ضحكتك وحشتني أوي 🌸",
+            "قلبي الصغير لا يتحمل زعلك 🥺💖",
+            "طب بصي لعيون ستيتش الغلبان ده 🐾💙",
+            "والله بحبك ومقدرش أشوفك زعلانة 🌺",
+            "إيدك رايحة على الزرار الغلط يا زوزا 😂💖",
+            "دوسي سامحتك بقى وهجيبلك شوكولاتة 🍫🥰"
+        ];
+
+        const noButtonTexts = [
+            "لأ لسه زعلانة 😒",
+            "برضو زعلانة 😤",
+            "مفيش صلح بسهولة 😌",
+            "حاول تاني كدا 👀",
+            "لسه شوية صغيرين 🤏",
+            "خلاص قربت أضحك 🤭",
+            "مش عارفة أمسك الزرار 😂"
+        ];
+
+        function dodgeOnHover(event) {
+            // Only dodge on mouse hover for desktop devices
+            if (window.matchMedia("(pointer: fine)").matches) {
+                rejectPlayfully(event);
+            }
+        }
+
+        function rejectPlayfully(event) {
+            if (event) event.preventDefault();
+            playCuteTone('boing');
+
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            const speechText = document.getElementById('stitchSpeechText');
+            const speechBox = document.getElementById('stitchSpeech');
+            const pleaHint = document.getElementById('pleaHint');
+            const arena = document.getElementById('buttonsArena');
+
+            // Update pleading message
+            const pleaIndex = noClickCount % stitchPleas.length;
+            speechText.textContent = `"${stitchPleas[pleaIndex]}"`;
+
+            // Animate speech bubble pop
+            speechBox.style.transform = 'scale(1.08)';
+            setTimeout(() => {
+                speechBox.style.transform = 'scale(1)';
+            }, 200);
+
+            // Update "No" button label playfully
+            const btnTextIndex = Math.min(noClickCount + 1, noButtonTexts.length - 1);
+            noBtn.textContent = noButtonTexts[btnTextIndex];
+
+            // Grow the "Yes" button progressively
+            noClickCount++;
+            yesScale = Math.min(1 + noClickCount * 0.11, 1.65);
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Show hint
+            pleaHint.classList.remove('opacity-0');
+
+            // Move the "No" button to a random spot within the card or shrink it
+            const arenaRect = arena.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            const maxX = Math.max(40, (arenaRect.width - btnRect.width) / 2);
+            const randomX = (Math.random() - 0.5) * 2 * maxX;
+            const randomY = (Math.random() - 0.5) * 75;
+            const shrinkScale = Math.max(0.68, 1 - noClickCount * 0.04);
+
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${shrinkScale})`;
+        }
+
+        /* ==========================================
+           ACCEPT APOLOGY & CELEBRATION LOGIC
+           ========================================== */
+        function acceptApology() {
+            playCuteTone('celebrate');
+
+            const apologyScreen = document.getElementById('apologyScreen');
+            const celebrationScreen = document.getElementById('celebrationScreen');
+
+            apologyScreen.classList.add('hidden');
+            celebrationScreen.classList.remove('hidden');
+            celebrationScreen.classList.add('pop-in');
+
+            // Scroll smoothly to top on mobile
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Trigger Confetti & Heart Explosion
+            triggerHeartShower();
+        }
+
+        function triggerHeartShower() {
+            playCuteTone('celebrate');
+
+            if (typeof confetti === 'function') {
+                const duration = 2200;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 5,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0, y: 0.65 },
+                        colors: ['#F472B6', '#60A5FA', '#C084FC', '#FDA4AF', '#38BDF8']
+                    });
+                    confetti({
+                        particleCount: 5,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1, y: 0.65 },
+                        colors: ['#F472B6', '#60A5FA', '#C084FC', '#FDA4AF', '#38BDF8']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                })();
+            }
+        }
+
+        /* ==========================================
+           APOLOGY COUPONS CLAIMING LOGIC
+           ========================================== */
+        const claimedCoupons = new Set();
+
+        function claimCoupon(id, title) {
+            playCuteTone('pop');
+
+            const card = document.getElementById(`coupon-${id}`);
+            const badge = document.getElementById(`badge-${id}`);
+            const summaryBox = document.getElementById('claimedSummaryBox');
+            const claimedList = document.getElementById('claimedList');
+
+            if (!claimedCoupons.has(title)) {
+                claimedCoupons.add(title);
+                card.classList.add('coupon-claimed');
+                badge.textContent = 'تم الاختيار ✅';
+                badge.classList.remove('bg-pink-500');
+                badge.classList.add('bg-emerald-500');
+
+                showToast(`تم اختيار: "${title}" لعيون زوزا 💖`);
+
+                // Small confetti burst
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 30,
+                        spread: 60,
+                        origin: { y: 0.75 },
+                        colors: ['#34D399', '#F472B6', '#60A5FA']
+                    });
+                }
+            } else {
+                // Allow toggling off if clicked again
+                claimedCoupons.delete(title);
+                card.classList.remove('coupon-claimed');
+                badge.textContent = 'استلام 💖';
+                badge.classList.remove('bg-emerald-500');
+                badge.classList.add('bg-pink-500');
+            }
+
+            // Update Summary UI
+            if (claimedCoupons.size > 0) {
+                summaryBox.classList.remove('hidden');
+                claimedList.innerHTML = '';
+                claimedCoupons.forEach(item => {
+                    const pill = document.createElement('span');
+                    pill.className = 'bg-white text-emerald-700 border border-emerald-300 px-3 py-1 rounded-full text-xs font-bold shadow-sm';
+                    pill.textContent = item;
+                    claimedList.appendChild(pill);
+                });
+            } else {
+                summaryBox.classList.add('hidden');
+            }
+        }
+
+        let toastTimeout = null;
+        function showToast(message) {
+            const toast = document.getElementById('toastMsg');
+            const toastText = document.getElementById('toastText');
+            toastText.textContent = message;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2600);
+        }
+
+        /* ==========================================
+           RESET EXPERIENCE
+           ========================================== */
+        function resetExperience() {
+            playCuteTone('pop');
+            noClickCount = 0;
+            yesScale = 1;
+
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const speechText = document.getElementById('stitchSpeechText');
+
+            yesBtn.style.transform = 'scale(1)';
+            noBtn.style.transform = 'translate(0, 0) scale(1)';
+            noBtn.textContent = 'لأ لسه زعلانة 😒';
+            speechText.textContent = '"زوزا.. أنا آسف بجد، متزعليش مني عشان خاطري 🥺💙"';
+
+            document.getElementById('celebrationScreen').classList.add('hidden');
+            document.getElementById('apologyScreen').classList.remove('hidden');
+        }
+
+        // Initialize background on window load
+        window.onload = function () {
+            createFloatingBackground();
+        };
+    </script>
+</body>
+</html>
